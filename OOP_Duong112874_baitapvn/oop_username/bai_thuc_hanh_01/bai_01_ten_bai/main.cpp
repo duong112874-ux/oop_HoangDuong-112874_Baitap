@@ -79,10 +79,10 @@ public:
     }
         void hienThi() const {
         cout << "   + Ma xe: " << maXe
-             << " | Loai: " << setw(10) << left << loaiXe
-             << " | Gio vao: " << setw(2) << right << gioVao << "h"
-             << " | Thoi gian do: " << setw(2) << thoiGianDo << "h"
-             << " | Phi do xe: $" << fixed << setprecision(2) << phiDoXe << endl;
+             << " Loai: " << setw(10) << left << loaiXe
+             << " Gio vao: " << setw(2) << right << gioVao << "h"
+             << " Thoi gian do: " << setw(2) << thoiGianDo << "h"
+             << " Phi do xe: $" << fixed << setprecision(2) << phiDoXe << endl;
     }
 };
         
