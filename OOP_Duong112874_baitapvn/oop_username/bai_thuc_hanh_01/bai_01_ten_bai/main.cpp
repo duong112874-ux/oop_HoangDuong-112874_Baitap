@@ -248,4 +248,3 @@ int main() {
     app.runMenu();
     return 0;
 }
-}
