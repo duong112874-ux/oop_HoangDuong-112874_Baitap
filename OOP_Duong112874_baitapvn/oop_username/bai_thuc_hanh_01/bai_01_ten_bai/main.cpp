@@ -102,8 +102,8 @@ public:
         size = s;
         hasVehicle1 = false; hasVehicle2 = false; hasVehicle3 = false;
     }
-    int layParkID() const { return parkID; }
-    char laySize() const { return size; }
+    int ParkID() const { return parkID; }
+    char Size() const { return size; }
     bool layHasVehicle1() const { return hasVehicle1; }
     bool layHasVehicle2() const { return hasVehicle2; }
     bool layHasVehicle3() const { return hasVehicle3; }
@@ -148,15 +148,105 @@ public:
     }
     void displayLotInfo() const {
         cout << "- Bai do ID: " << parkID 
-             << " | Kich thuoc (Size): " << size 
-             << " | So xe hien tai: " << demSoXe() << endl;
+             << "  Kich thuoc (Size): " << size 
+             << "  So xe hien tai: " << demSoXe() << endl;
         if (hasVehicle1) vehicle1.hienThi();
         if (hasVehicle2) vehicle2.hienThi();
         if (hasVehicle3) vehicle3.hienThi();
     }
 };
-        
-            
-    
+    class SystemInterface {
+private:
+    ParkingLot parkingLot1, parkingLot2, parkingLot3;
+    bool hasLot1, hasLot2, hasLot3;
+
+public:
+    SystemInterface() {
+        hasLot1 = false; hasLot2 = false; hasLot3 = false;
+    }
+
+    void runMenu() {
+        int choice = 0;
+        do {
+            cout << "\n===== HỆ THỐNG QUẢN LÝ BÃI ĐỖ XE (PARKING SYSTEM) =====\n";
+            cout << "1. Tao chho do xe moi\n";
+            cout << "2. Them xe vao bai do (addVehicle)\n";
+            cout << "3. Xoa mot cho do xe\n";
+            cout << "4. Lay xe ra khoi bai (removeVehicle)\n";
+            cout << "5. Hien thi tat ca cac Parking Lot\n";
+            cout << "6. Hien thi chi tiet xe trong 1 bai (displayLotInfo)\n";
+            cout << "7. Thoat chuong trinh\n";
+            cout << "Lua chon cua ban (1-7): ";
+            cin >> chon;
+
+            if (chon == 1) {
+                int id; char s;
+                cout << "Nhap parkID: "; cin >> id;
+                cout << "Nhap size ('S', 'M', 'L'): "; cin >> s;
+
+                if (!hasLot1) { parkingLot1 = ParkingLot(id, s); hasLot1 = true; cout << "Tao bai 1 thanh cong!\n"; }
+                else if (!hasLot2) { parkingLot2 = ParkingLot(id, s); hasLot2 = true; cout << "Tao bai 2 thanh cong!\n"; }
+                else if (!hasLot3) { parkingLot3 = ParkingLot(id, s); hasLot3 = true; cout << "Tao bai 3 thanh cong!\n"; }
+                else { cout << "He thong da dat toi đa 3 bai do!\n"; }
+            } 
+            else if (chon == 2) {
+                int maXe, gio, thoiGian;
+                string loai;
+                cout << "Nhap vehicleID: "; cin >> maXe;
+                cout << "Nhap vehicleType (Car, Motorcycle, Bicycle): "; cin >> loai;
+                cout << "Nhap entryTime (0-23): "; cin >> gio;
+                cout << "Nhap parkingDuration (1-23): "; cin >> thoiGian;
+
+                Vehicle v(maXe, loai, gio, thoiGian);
+
+                if (hasLot1 && parkingLot1.addVehicle(v)) {
+                    cout << "Da them xe vao Parking Lot ID " << parkingLot1.layParkID() << " (Phi: $" << v.layPhiDoXe() << ")\n";
+                } else if (hasLot2 && parkingLot2.addVehicle(v)) {
+                    cout << "Da them xe vao Parking Lot ID " << parkingLot2.layParkID() << " (Phi: $" << v.layPhiDoXe() << ")\n";
+                } else if (hasLot3 && parkingLot3.addVehicle(v)) {
+                    cout << "Da them xe vao Parking Lot ID " << parkingLot3.layParkID() << " (Phi: $" << v.layPhiDoXe() << ")\n";
+                } else {
+                    cout << "Tat ca cac bai do deu da day hoac chua duoc tao!\n";
+                }
+            }
+            else if (chon == 3) {
+                int id;
+                cout << "Nhap parkID can xoa: "; cin >> id;
+                if (hasLot1 && parkingLot1.layParkID() == id) { hasLot1 = false; cout << "Da xoa bai do!\n"; }
+                else if (hasLot2 && parkingLot2.layParkID() == id) { hasLot2 = false; cout << "Da xoa bai do!\n"; }
+                else if (hasLot3 && parkingLot3.layParkID() == id) { hasLot3 = false; cout << "Da xoa bai do!\n"; }
+                else { cout << "Khong tim thay bai do!\n"; }
+            }
+            else if (chon == 4) {
+                int vID;
+                cout << "Nhap vehicleID can lay ra: "; cin >> vID;
+                if (hasLot1 && parkingLot1.removeVehicle(vID)) { cout << "Da lay xe ra khoi Parking Lot 1!\n"; }
+                else if (hasLot2 && parkingLot2.removeVehicle(vID)) { cout << "Da lay xe ra khoi Parking Lot 2!\n"; }
+                else if (hasLot3 && parkingLot3.removeVehicle(vID)) { cout << "Da lay xe ra khoi Parking Lot 3!\n"; }
+                else { cout << "Khong tim thay xe trong he thong!\n"; }
+            }
+            else if (chon == 5) {
+                cout << "\n--- DANH SACH CAC PARKING LOT ---\n";
+                if (hasLot1) parkingLot1.displayLotInfo();
+                if (hasLot2) parkingLot2.displayLotInfo();
+                if (hasLot3) parkingLot3.displayLotInfo();
+                if (!hasLot1 && !hasLot2 && !hasLot3) cout << "Chua co bai do nao.\n";
+            }
+            else if (chon == 6) {
+                int id;
+                cout << "Nhap parkID can xem chi tiet: "; cin >> id;
+                if (hasLot1 && parkingLot1.layParkID() == id) parkingLot1.displayLotInfo();
+                else if (hasLot2 && parkingLot2.layParkID() == id) parkingLot2.displayLotInfo();
+                else if (hasLot3 && parkingLot3.layParkID() == id) parkingLot3.displayLotInfo();
+                else cout << "Khong tim thay bai do!\n";
+            }
+        } while (chon != 7);
+    }
+};
+
+int main() {
+    SystemInterface app;
+    app.runMenu();
     return 0;
+}
 }
