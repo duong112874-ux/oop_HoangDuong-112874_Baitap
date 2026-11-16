@@ -70,6 +70,7 @@ void phuong_tien::dat_tg_do(int tg) { tg_do = tg; phi_do_xe = tinh_phi(); }
 double phuong_tien::tinh_phi() const {
     double gia = (loai_xe == "Car") ? 6.0 : (loai_xe == "Motorcycle") ? 4.0 : 2.0;
     bool cao_diem = (gio_vao >= 6 && gio_vao <= 9) || (gio_vao >= 15 && gio_vao <= 18);
+    
     double tong = 0;
     for (int h = 0; h < tg_do; ++h) {
         if (h < 2) tong += gia * (cao_diem ? 1.30 : 0.95);
