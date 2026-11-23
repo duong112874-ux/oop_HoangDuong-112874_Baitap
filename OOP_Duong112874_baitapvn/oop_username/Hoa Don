@@ -55,3 +55,98 @@ public:
              << setw(16) << fixed << setprecision(0) << tinhThanhTien() << endl;
     }
 };
+class HOA_DON {
+private:
+    string soHD;
+    string ngayLap;
+    KHACH_HANG x;   
+    int smh;       
+    HANG_HOA *a;   
+    double thueGTGT;
+    string hinhThucTT;
+
+public:
+    HOA_DON() {
+        smh = 0;
+        a = NULL;
+        thueGTGT = 0;
+    }
+    ~HOA_DON() {
+        if (a != NULL) {
+            delete[] a;
+        }
+    }
+
+    void nhap() {
+        cout << "=== NHAP THONG TIN HOA DON ===" << endl;
+        cout << "Nhap so hoa don (VD: HD-2026-0001): ";
+        getline(cin, soHD);
+        cout << "Nhap ngay lap (VD: 14/03/2026)    : ";
+        getline(cin, ngayLap);
+        x.nhap();
+        cout << "Nhap so luong mat hang (smh): ";
+        cin >> smh;
+        a = new HANG_HOA[smh];
+        for (int i = 0; i < smh; i++) {
+            cout << "Nhap thong tin mat hang thu " << i + 1 << ":" << endl;
+            a[i].nhap();
+        }
+        cout << "Nhap thue GTGT (%): ";
+        cin >> thueGTGT;
+        cin.ignore(); 
+        cout << "Hinh thuc thanh toan (Tien mat / Chuyen khoan / Quet the): ";
+        getline(cin, hinhThucTT);
+    }
+    double tongTienHang() {
+        double tong = 0;
+        for (int i = 0; i < smh; i++) {
+            tong += a[i].tinhThanhTien();
+        }
+        return tong;
+    }
+    double tienThue() {
+        return tongTienHang() * (thueGTGT / 100.0);
+    }
+
+   
+    double tongThanhToan() {
+        return tongTienHang() + tienThue();
+    }
+
+    void xuat() {
+        cout << "\n==================================================================================" << endl;
+        cout << "                                 HOA DON BAN HANG                                 " << endl;
+        cout << "==================================================================================" << endl;
+        cout << "So HD: " << left << setw(40) << soHD << "Ngay: " << ngayLap << endl;
+        x.xuat();
+        cout << "----------------------------------------------------------------------------------" << endl;
+        cout << left << setw(5) << "STT"
+             << setw(30) << "Ten hang hoa / dich vu"
+             << setw(10) << "DVT"
+             << right << setw(6) << "SL"
+             << setw(15) << "Don gia"
+             << setw(16) << "Thanh tien" << endl;
+        cout << "----------------------------------------------------------------------------------" << endl;
+        for (int i = 0; i < smh; i++) {
+            a[i].xuat(i + 1);
+        }
+
+        cout << "----------------------------------------------------------------------------------" << endl;
+        cout << right << setw(66) << "Cong tien hang: " 
+             << setw(16) << fixed << setprecision(0) << tongTienHang() << endl;
+        cout << right << setw(60) << "Thue GTGT (" << thueGTGT << "%): " 
+             << setw(16) << fixed << setprecision(0) << tienThue() << endl;
+        cout << right << setw(66) << "TONG THANH TOAN: " 
+             << setw(16) << fixed << setprecision(0) << tongThanhToan() << endl;
+        cout << "----------------------------------------------------------------------------------" << endl;
+        cout << "Hinh thuc thanh toan: " << hinhThucTT << endl;
+        cout << "==================================================================================" << endl;
+    }
+};
+int main() {
+    HOA_DON hd;
+    hd.nhap();
+    hd.xuat();
+    return 0;
+}
+
