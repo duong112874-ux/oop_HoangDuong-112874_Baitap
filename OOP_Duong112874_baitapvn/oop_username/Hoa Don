@@ -24,3 +24,34 @@ public:
         cout << "Dien thoai: " << dienThoai << endl;
     }
 };
+class HANG_HOA {
+private:
+    string tenHang;
+    string donViTinh;
+    int soLuong;
+    double donGia;
+
+public:
+    void nhap() {
+        cin.ignore(); 
+        cout << "  + Ten hang hoa/dich vu: ";
+        getline(cin, tenHang);
+        cout << "  + Don vi tinh (DVT)   : ";
+        getline(cin, donViTinh);
+        cout << "  + So luong (SL)       : ";
+        cin >> soLuong;
+        cout << "  + Don gia             : ";
+        cin >> donGia;
+    }
+    double tinhThanhTien() {
+        return soLuong * donGia;
+    }
+    void xuat(int stt) {
+        cout << left << setw(5) << stt
+             << setw(30) << tenHang
+             << setw(10) << donViTinh
+             << right << setw(6) << soLuong
+             << setw(15) << fixed << setprecision(0) << donGia
+             << setw(16) << fixed << setprecision(0) << tinhThanhTien() << endl;
+    }
+};
