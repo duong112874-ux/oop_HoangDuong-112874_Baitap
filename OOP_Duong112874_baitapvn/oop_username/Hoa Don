@@ -1,1 +1,26 @@
+#include <iostream>
+#include <string>
+#include <iomanip> 
+using namespace std;
+class KHACH_HANG {
+private:
+    string hoTen;
+    string diaChi;
+    string dienThoai;
 
+public:
+    void nhap() {
+        cout << "Nhap ten khach hang: ";
+        getline(cin, hoTen);
+        cout << "Nhap dia chi: ";
+        getline(cin, diaChi);
+        cout << "Nhap so dien thoai: ";
+        getline(cin, dienThoai);
+    }
+
+    void xuat() {
+        cout << "Ban cho   : " << hoTen << endl;
+        cout << "Dia chi   : " << diaChi << endl;
+        cout << "Dien thoai: " << dienThoai << endl;
+    }
+};
